@@ -1,12 +1,13 @@
 #!/usr/bin/python3
-import urllib.request, re
+import urllib.request
+from re import findall
 
 url = 'http://checkip.dyndns.org'
 regexp = '<body>Current IP Address: (.*?)</body>'
 
-req = urllib.request.urlopen(url,timeout=3)
+req = urllib.request.urlopen(url,timeout=9)
 html = req.read()
 
-ip = re.findall(regexp,str(html))
+ip = findall(regexp,str(html))
 
 print(ip[0])
