@@ -1,7 +1,5 @@
-#!/usr/bin/python
-
+#!/usr/bin/python3
 import urllib.request, re
-
 
 url = 'http://checkip.dyndns.org'
 regexp = '<body>Current IP Address: (.*?)</body>'
