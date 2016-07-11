@@ -1,8 +1,9 @@
 #!/usr/bin/python3
-# GETING PUBLIC IP
-import urllib.request
-from re import findall
-def extIp(site):
+
+def extIp(site): # GETING PUBLIC IP
+    import urllib.request
+    from re import findall
+
     ipMask = '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}'
     if site == 'dyndns':
         url = 'http://checkip.dyndns.org'
@@ -25,34 +26,32 @@ def extIp(site):
     ip = findall(regexp,str(html))[0]
     return ip
 
-# GETING LOCAL IP FROM SYSTEM
-import socket
-def localIp():
+def localIp(): # GETING LOCAL IP FROM SYSTEM
+    import socket
     get = socket.gethostname()
     ip = socket.gethostbyname(get)
     return ip
 
-# CLI ARGUMENTS
-import argparse
-import sys
-def flags():
+def flags(): # CLI ARGUMENTS
+    import argparse
+    import sys
     parser = argparse.ArgumentParser()
     
-# FLAGS
+    # FLAGS
     parser.add_argument('-l', '--local', help='show local ip', action='store_true')
     parser.add_argument('-p', '--public', help='show public ip', action='store_true')
     parser.add_argument('-g', '--google', help='use google to check ip, faster but may block ip', action='store_true')
     parser.add_argument('-v', '--verbose', help='Make output verbose', action='store_true')
 
     args = parser.parse_args()
-# LOCAL IP
+    # LOCAL IP
     if args.local:
         if args.verbose:
             print('system => Your local IP:', localIp())
         else:
             print(localIp())
 
-# PUBLIC IP
+    # PUBLIC IP
     if args.google:
         site = 'google'
         args.public = True
@@ -65,7 +64,7 @@ def flags():
         else:
             print(extIp(site))
 
-# IF NO ARGS
+    # IF NO ARGS
     if len(sys.argv) < 2:
         parser.print_help()
         print('\nsystem => Your local IP:', localIp())
