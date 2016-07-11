@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# GETING PUBLIC IP FROM DYNDNS.ORG
+# GETING PUBLIC IP
 import urllib.request
 from re import findall
 def extIp(site):
@@ -11,10 +11,7 @@ def extIp(site):
         url = 'https://www.google.co.uk/search?q=check+ip'
         regexp = '<!--m--><div.*?><div><div class=.*?>('+ipMask+').*?Your public IP address</div></div></div><!--n--></div>'
 
-    req = urllib.request.Request(
-        url,
-        data=None,
-        headers={
+    req = urllib.request.Request( url, data=None, headers={
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0'    
         }
     )
@@ -26,7 +23,6 @@ def extIp(site):
     html = opener.read()
 
     ip = findall(regexp,str(html))[0]
-
     return ip
 
 # GETING LOCAL IP FROM SYSTEM
@@ -34,7 +30,6 @@ import socket
 def localIp():
     get = socket.gethostname()
     ip = socket.gethostbyname(get)
-    
     return ip
 
 # CLI ARGUMENTS
@@ -43,24 +38,21 @@ import sys
 def flags():
     parser = argparse.ArgumentParser()
     
+# FLAGS
     parser.add_argument('-l', '--local', help='show local ip', action='store_true')
     parser.add_argument('-p', '--public', help='show public ip', action='store_true')
     parser.add_argument('-g', '--google', help='use google to check ip, faster but may block ip', action='store_true')
     parser.add_argument('-v', '--verbose', help='Make output verbose', action='store_true')
 
     args = parser.parse_args()
-    # if no args
-    if len(sys.argv) < 2:
-        parser.print_help()
-        print('\nYour local IP:', localIp())
-        print('Your public IP:', extIp())
-
+# LOCAL IP
     if args.local:
         if args.verbose:
             print('system => Your local IP:', localIp())
         else:
             print(localIp())
 
+# PUBLIC IP
     if args.google:
         site = 'google'
         args.public = True
@@ -72,4 +64,11 @@ def flags():
             print(site, '=> Your public IP:', extIp(site))
         else:
             print(extIp(site))
+
+# IF NO ARGS
+    if len(sys.argv) < 2:
+        parser.print_help()
+        print('\nsystem => Your local IP:', localIp())
+        print(site, '=> Your public IP:', extIp(site))
+
 flags()
