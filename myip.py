@@ -10,7 +10,7 @@ def extIp(site): # GETING PUBLIC IP
         regexp = '<body>Current IP Address: ('+ipMask+')</body>'
     if site == 'google':
         url = 'https://www.google.co.uk/search?q=check+ip'
-        regexp = '<!--m--><div.*?><div><div class=.*?>('+ipMask+').*?Your public IP address</div></div></div><!--n--></div>'
+        regexp = '<w-answer-desktop><div class="_H1m _u2m _kup _I5m" style="-webkit-line-clamp:2">('+ipMask+')</div>'
 
     req = urllib.request.Request( url, data=None, headers={
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0'    
