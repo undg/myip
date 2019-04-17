@@ -9,11 +9,12 @@ def extIp(site): # GETING PUBLIC IP
         url = 'http://checkip.dyndns.org'
         regexp = '<body>Current IP Address: ('+ipMask+')</body>'
     if site == 'google':
-        url = 'https://www.google.co.uk/search?q=check+ip'
-        regexp = '<w-answer-desktop><div class="_H1m _u2m _kup _I5m" style="-webkit-line-clamp:2">('+ipMask+')</div>'
+        url = 'https://www.google.co.uk/search?q=my+ip'
+        regexp = '<w-answer-desktop><div class="...... ...... .... ...... ......" style="-webkit-line-clamp:2">('+ipMask+')</div>'
+
 
     req = urllib.request.Request( url, data=None, headers={
-            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0'    
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0'
         }
     )
     try:
@@ -36,7 +37,7 @@ def flags(): # CLI ARGUMENTS
     import argparse
     import sys
     parser = argparse.ArgumentParser()
-    
+
     # FLAGS
     parser.add_argument('-l', '--local', help='show local ip', action='store_true')
     parser.add_argument('-p', '--public', help='show public ip', action='store_true')
