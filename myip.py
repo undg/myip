@@ -11,8 +11,9 @@ def extIp(site): # GETING PUBLIC IP
     if site == 'google':
         url = 'https://www.google.co.uk/search?q=my+ip'
         regexp = '<w-answer-desktop><div class="...... ...... .... ...... ......" style="-webkit-line-clamp:2">('+ipMask+')</div>'
-
-
+    if site == 'ipify':
+        url = 'https://api.ipify.org/'
+        regexp = '('+ipMask+')'
     req = urllib.request.Request( url, data=None, headers={
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0'
         }
@@ -41,7 +42,9 @@ def flags(): # CLI ARGUMENTS
     # FLAGS
     parser.add_argument('-l', '--local', help='show local ip', action='store_true')
     parser.add_argument('-p', '--public', help='show public ip', action='store_true')
-    parser.add_argument('-g', '--google', help='use google to check ip, faster but may block ip', action='store_true')
+    parser.add_argument('-g', '--google', help='use google to check ip', action='store_true')
+    parser.add_argument('-d', '--dyndns', help='use dyndns to check ip', action='store_true')
+    parser.add_argument('-i', '--ipify', help='use ipify to check ip', action='store_true')
     parser.add_argument('-v', '--verbose', help='Make output verbose', action='store_true')
 
     args = parser.parse_args()
@@ -53,11 +56,17 @@ def flags(): # CLI ARGUMENTS
             print(localIp())
 
     # PUBLIC IP
+    if args.dyndns:
+        site = 'dyndns'
+        args.public = True
+    if args.ipify:
+        site = 'ipify'
+        args.public = True
     if args.google:
         site = 'google'
         args.public = True
     else:
-        site = 'dyndns'
+        site = 'ipify'
 
     if args.public:
         if args.verbose:
