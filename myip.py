@@ -5,12 +5,19 @@ def extIp(site): # GETING PUBLIC IP
     from re import findall
 
     ipMask = '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}'
+
     if site == 'dyndns':
         url = 'http://checkip.dyndns.org'
         regexp = '<body>Current IP Address: ('+ipMask+')</body>'
+
     if site == 'ipify':
         url = 'https://api.ipify.org/'
         regexp = '('+ipMask+')'
+
+    if site == 'ifconfig':
+        url = 'http://ifconfig.me/ip'
+        regexp = '('+ipMask+')'
+
     req = urllib.request.Request( url, data=None, headers={
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0'
         }
@@ -41,6 +48,7 @@ def flags(): # CLI ARGUMENTS
     parser.add_argument('-p', '--public', help='show public ip', action='store_true')
     parser.add_argument('-d', '--dyndns', help='use dyndns to check ip', action='store_true')
     parser.add_argument('-i', '--ipify', help='use ipify to check ip', action='store_true')
+    parser.add_argument('-f', '--ifconfig', help='use ifconfig.me/ip to check ip', action='store_true')
     parser.add_argument('-v', '--verbose', help='Make output verbose', action='store_true')
 
     args = parser.parse_args()
@@ -57,6 +65,9 @@ def flags(): # CLI ARGUMENTS
         args.public = True
     if args.ipify:
         site = 'ipify'
+        args.public = True
+    if args.ifconfig:
+        site = 'ifconfig'
         args.public = True
     else:
         site = 'ipify'
